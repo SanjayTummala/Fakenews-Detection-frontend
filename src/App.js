@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("detect"); // detect | about | dataset | stack
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [tab, setTab] = useState("detect"); // "detect" | "about" | "dataset" | "stack"
 
-  const API_BASE =
-    process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+  // Use deployed backend if env var exists, otherwise local for dev
+  const API_BASE = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const handleDetect = async () => {
     setError("");
@@ -31,13 +31,13 @@ function App() {
       });
 
       if (!res.ok) {
-        throw new Error(`Server responded with ${res.status}`);
+        throw new Error(`Server responded with status ${res.status}`);
       }
 
       const data = await res.json();
       setResult((data.result || "").toLowerCase());
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error calling backend:", err);
       setError("Could not reach the detection server. Please try again.");
     } finally {
       setLoading(false);
@@ -57,59 +57,60 @@ function App() {
     <div className="app">
       <div className="app-overlay">
         <div className="card">
+          {/* Header */}
           <header className="card-header">
             <div>
               <h1>Fake News Detection</h1>
               <p className="subtitle">
-                A production-ready web app that uses{" "}
-                <strong>Machine Learning</strong> and{" "}
-                <strong>Natural Language Processing</strong> to classify news
-                as <strong>fake</strong> or <strong>real</strong>.
+                ML-powered web app to classify news statements as{" "}
+                <strong>fake</strong> or <strong>real</strong> using{" "}
+                <strong>TF-IDF</strong> and{" "}
+                <strong>Multinomial Naive Bayes</strong>.
               </p>
             </div>
             <div className="header-right">
               <span className="badge">ML Powered</span>
-              <span className="status-pill">Deployed · Vercel + Render</span>
+              <span className="status-pill">Deployed · Vercel & Render</span>
             </div>
           </header>
 
           {/* Tabs */}
           <div className="tabs">
             <button
-              className={`tab ${tab === "detect" ? "active" : ""}`}
-              onClick={() => setTab("detect")}
+              className={`tab ${activeTab === "detect" ? "active" : ""}`}
+              onClick={() => setActiveTab("detect")}
             >
               🔍 Detector
             </button>
             <button
-              className={`tab ${tab === "about" ? "active" : ""}`}
-              onClick={() => setTab("about")}
+              className={`tab ${activeTab === "about" ? "active" : ""}`}
+              onClick={() => setActiveTab("about")}
             >
               📘 About
             </button>
             <button
-              className={`tab ${tab === "dataset" ? "active" : ""}`}
-              onClick={() => setTab("dataset")}
+              className={`tab ${activeTab === "dataset" ? "active" : ""}`}
+              onClick={() => setActiveTab("dataset")}
             >
-              📊 Dataset & Model
+              📊 Dataset & Samples
             </button>
             <button
-              className={`tab ${tab === "stack" ? "active" : ""}`}
-              onClick={() => setTab("stack")}
+              className={`tab ${activeTab === "stack" ? "active" : ""}`}
+              onClick={() => setActiveTab("stack")}
             >
               🛠 Tech & Architecture
             </button>
           </div>
 
-          {/* DETECTOR TAB */}
-          {tab === "detect" && (
+          {/* TAB: DETECTOR */}
+          {activeTab === "detect" && (
             <>
               <div className="form-group">
-                <label className="label">News text</label>
+                <label className="label">Enter news text</label>
                 <textarea
                   className="textarea"
                   rows={6}
-                  placeholder="Example: The government has officially announced a new cybersecurity policy..."
+                  placeholder="Example: The government has officially announced a new national cybersecurity policy..."
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                 />
@@ -123,7 +124,8 @@ function App() {
                 >
                   {loading ? (
                     <span className="spinner-wrapper">
-                      <span className="spinner" /> Analyzing...
+                      <span className="spinner" />
+                      Analyzing...
                     </span>
                   ) : (
                     "Detect Fake News"
@@ -140,9 +142,9 @@ function App() {
 
               {result && (
                 <div
-                  className={
-                    "result-box " + (isFake ? "fake" : isReal ? "real" : "")
-                  }
+                  className={`result-box ${
+                    isFake ? "fake" : isReal ? "real" : ""
+                  }`}
                 >
                   <div className="result-header">
                     <span className="pill">
@@ -154,8 +156,8 @@ function App() {
                     <strong>{result.toUpperCase()}</strong> by the model.
                   </p>
                   <p className="note">
-                    ⚠️ Note: This is a machine learning prediction and may not
-                    be 100% accurate. Always cross-check with trusted sources.
+                    ⚠️ This is an automated ML prediction. Please verify with
+                    official and trusted sources before sharing.
                   </p>
                 </div>
               )}
@@ -164,108 +166,173 @@ function App() {
             </>
           )}
 
-          {/* ABOUT TAB */}
-          {tab === "about" && (
+          {/* TAB: ABOUT */}
+          {activeTab === "about" && (
             <div className="info-section">
               <h2>About this Project</h2>
               <p>
-                This web application is part of an{" "}
+                This web app is part of an{" "}
                 <strong>Advanced Fake News Detection</strong> project. It
-                demonstrates how <strong>Machine Learning</strong> and{" "}
-                <strong>NLP</strong> can be used to detect misinformation in
-                online news and social media.
+                demonstrates how <strong>Machine Learning (ML)</strong> and{" "}
+                <strong>Natural Language Processing (NLP)</strong> can be used
+                to automatically identify potentially fake or misleading news.
               </p>
               <p>
-                The system takes a news statement as input, preprocesses the
-                text, transforms it into numerical vectors using{" "}
-                <strong>TF-IDF</strong>, and then applies a{" "}
-                <strong>Multinomial Naive Bayes classifier</strong> to predict
-                whether the statement is <strong>fake</strong> or{" "}
+                The system takes a news sentence or short article as input and
+                converts it into numerical features using{" "}
+                <strong>TF-IDF vectorization</strong>. A{" "}
+                <strong>Multinomial Naive Bayes</strong> classifier then
+                predicts whether it is likely to be <strong>fake</strong> or{" "}
                 <strong>real</strong>.
               </p>
               <p>
-                The frontend is built with <strong>React.js</strong> and
-                communicates with a <strong>Flask</strong> backend via a
-                RESTful API deployed on <strong>Render</strong>. The entire UI
-                and UX are designed to resemble a production-grade ML product.
+                The frontend is built with <strong>React.js</strong> and sends
+                requests to a <strong>Flask</strong> backend API. The backend
+                loads a trained ML model and returns predictions as JSON. Both
+                parts are fully deployed using <strong>Vercel</strong> (frontend)
+                and <strong>Render</strong> (backend).
               </p>
             </div>
           )}
 
-          {/* DATASET & MODEL TAB */}
-          {tab === "dataset" && (
+          {/* TAB: DATASET & SAMPLES */}
+          {activeTab === "dataset" && (
             <div className="info-section">
-              <h2>Dataset & Model Details</h2>
+              <h2>Dataset & Model</h2>
+              <p>
+                The model is trained on a combined dataset of{" "}
+                <strong>~54,000+</strong> labeled news samples collected from
+                multiple fake/real news datasets. Each record contains the news
+                text and a label: <strong>fake</strong> or{" "}
+                <strong>real</strong>.
+              </p>
               <ul>
+                <li>Text is cleaned, normalized, and converted to lowercase.</li>
                 <li>
-                  Combined dataset built from multiple sources of{" "}
-                  <strong>real</strong> and <strong>fake</strong> news
-                  (headlines + full text).
+                  We use <strong>TF-IDF</strong> to transform text into numeric
+                  vectors.
                 </li>
                 <li>
-                  Final training dataset size:{" "}
-                  <strong>~54,000+ labeled samples</strong> of news articles and
-                  statements.
+                  We train a <strong>Multinomial Naive Bayes</strong> model
+                  using scikit-learn.
                 </li>
                 <li>
-                  Text is preprocessed and converted into numerical form using{" "}
-                  <strong>TF-IDF (Term Frequency - Inverse Document Frequency)</strong>{" "}
-                  with up to <code>20,000</code> features.
+                  The trained model and vectorizer are saved as{" "}
+                  <code>model.pkl</code> and <code>tfidf.pkl</code>, loaded by
+                  the Flask backend.
                 </li>
                 <li>
-                  Core model: <strong>Multinomial Naive Bayes</strong>, chosen
-                  for its strong performance on text classification tasks.
-                </li>
-                <li>
-                  The trained model and TF-IDF vectorizer are stored in{" "}
-                  <code>model.pkl</code> and <code>tfidf.pkl</code>, and loaded
-                  by the Flask backend on startup.
-                </li>
-                <li>
-                  API endpoint:
+                  Prediction endpoint:
                   <br />
                   <code>POST /predict</code> with JSON body{" "}
-                  <code>&#123; "text": "your news text" &#125;</code>
+                  <code>{`{ "text": "your news here" }`}</code>.
                 </li>
               </ul>
+
               <p className="note">
-                🚀 Future Enhancements: Integrate deep learning models (LSTM /
-                BERT), multilingual support, and real-time news feed analysis.
+                🚀 Future work: add deep learning models (LSTM / BERT),
+                multilingual support, and real-time news feed integration.
               </p>
+
+              {/* SAMPLE EXAMPLES SECTION */}
+              <div className="examples-section">
+                <h3>Sample Fake & Real News Examples</h3>
+                <p>
+                  These examples illustrate the type of content that typically
+                  appears as <strong>fake</strong> vs <strong>real</strong> in
+                  the dataset.
+                </p>
+
+                <div className="examples-grid">
+                  <div className="example-card fake-sample">
+                    <h4>🔴 Fake News Samples</h4>
+                    <ul>
+                      <li>
+                        “Government will deposit ₹5,00,000 into every citizen’s
+                        bank account automatically from next week.”
+                      </li>
+                      <li>
+                        “Scientists confirm that drinking only hot water for 3
+                        days can completely cure all types of cancer.”
+                      </li>
+                      <li>
+                        “A major national bank has announced that all loans
+                        taken before 2020 are cancelled.”
+                      </li>
+                      <li>
+                        “New secret law makes it illegal to use social media
+                        after 9 PM without a special license.”
+                      </li>
+                      <li>
+                        “Space agency admits that the Earth is flat and all
+                        previous images were edited.”
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="example-card real-sample">
+                    <h4>🟢 Real News Samples</h4>
+                    <ul>
+                      <li>
+                        “The central bank announced a 0.25% change in the repo
+                        rate during its latest monetary policy meeting.”
+                      </li>
+                      <li>
+                        “The Ministry of Health released updated guidelines on
+                        vaccination schedules for children.”
+                      </li>
+                      <li>
+                        “The election commission published the final list of
+                        candidates contesting in the upcoming state elections.”
+                      </li>
+                      <li>
+                        “The national transport authority introduced new
+                        regulations for highway safety and speed limits.”
+                      </li>
+                      <li>
+                        “The government signed a bilateral agreement to improve
+                        cybersecurity cooperation between the two countries.”
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
-          {/* TECH & ARCHITECTURE TAB */}
-          {tab === "stack" && (
+          {/* TAB: TECH & ARCHITECTURE */}
+          {activeTab === "stack" && (
             <div className="info-section">
               <h2>Technologies & Architecture</h2>
               <p>
-                This project is implemented as a full-stack, ML-powered web
-                application with clear separation between{" "}
-                <strong>frontend</strong>, <strong>backend</strong>, and{" "}
-                <strong>ML model</strong>.
+                This project is a fully deployed, ML-backed web application with
+                clear separation between <strong>frontend</strong>,{" "}
+                <strong>backend</strong>, and <strong>ML model</strong>.
               </p>
 
               <div className="stack-grid">
                 <div className="stack-card">
                   <h3>🖥 Frontend</h3>
                   <ul>
-                    <li>React.js (SPA)</li>
-                    <li>Modern responsive UI with custom CSS</li>
+                    <li>React.js Single Page Application</li>
+                    <li>Custom responsive UI with CSS</li>
                     <li>Fetch API for calling backend</li>
-                    <li>Environment variables for API URL</li>
-                    <li>Deployed on <strong>Vercel</strong></li>
+                    <li>
+                      Environment variable:{" "}
+                      <code>REACT_APP_API_URL</code>
+                    </li>
+                    <li>Deployed on Vercel</li>
                   </ul>
                 </div>
 
                 <div className="stack-card">
                   <h3>⚙ Backend API</h3>
                   <ul>
-                    <li>Python 3</li>
-                    <li>Flask web framework</li>
-                    <li>Flask-CORS for cross-origin access</li>
-                    <li>Single endpoint: <code>/predict</code></li>
-                    <li>Deployed on <strong>Render</strong></li>
+                    <li>Python 3 + Flask</li>
+                    <li>REST API endpoint: <code>/predict</code></li>
+                    <li>Flask-CORS for cross-origin requests</li>
+                    <li>Loads <code>model.pkl</code> and <code>tfidf.pkl</code></li>
+                    <li>Deployed on Render</li>
                   </ul>
                 </div>
 
@@ -273,10 +340,10 @@ function App() {
                   <h3>🤖 ML & NLP</h3>
                   <ul>
                     <li>Scikit-learn</li>
-                    <li>TF-IDF vectorizer (text ➜ vectors)</li>
+                    <li>TF-IDF Vectorizer</li>
                     <li>Multinomial Naive Bayes classifier</li>
-                    <li>Trained on ~54k labeled news samples</li>
-                    <li>Model persisted as <code>.pkl</code> files</li>
+                    <li>Trained on ~54k labeled samples</li>
+                    <li>Model serialized using pickle</li>
                   </ul>
                 </div>
 
@@ -284,24 +351,25 @@ function App() {
                   <h3>🧱 Architecture</h3>
                   <ul>
                     <li>
-                      User ➜ React UI ➜ Flask API ➜ ML Model ➜ Prediction
+                      User → React UI → Flask API → ML Model → Prediction
                     </li>
-                    <li>Clean separation of concerns</li>
-                    <li>Stateless HTTP communication</li>
-                    <li>Easy to extend with new models or pages</li>
-                    <li>Suitable for showcasing in portfolio & interviews</li>
+                    <li>Stateless HTTP JSON communication</li>
+                    <li>Loose coupling between frontend & backend</li>
+                    <li>Easy to swap or upgrade models</li>
+                    <li>Ideal for portfolio & academic demos</li>
                   </ul>
                 </div>
               </div>
 
               <p className="note">
                 💡 This section is designed to help reviewers, recruiters, and
-                faculty quickly understand the technologies and architecture
-                behind the project.
+                faculty quickly understand the end-to-end engineering of the
+                project.
               </p>
             </div>
           )}
 
+          {/* Footer */}
           <footer className="footer">
             <span>
               Built by <strong>Sanjay Kumar Tummala</strong> · React · Flask ·
