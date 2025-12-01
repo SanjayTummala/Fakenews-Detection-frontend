@@ -1,61 +1,57 @@
-/* Examples section */
-.examples-section {
-  margin-top: 18px;
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-.examples-section h3 {
-  margin: 0 0 6px;
-  font-size: 1rem;
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  border: 1px solid rgba(52, 211, 153, 0.8);
+  color: #bbf7d0;
+  background: rgba(6, 95, 70, 0.3);
 }
 
-.examples-section p {
-  font-size: 0.85rem;
-  color: #d1d5db;
-  margin-bottom: 10px;
-}
-
-.examples-grid {
+/* Grid of stack cards in Tech & Architecture tab */
+.stack-grid {
+  margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.example-card {
+.stack-card {
   border-radius: 14px;
-  padding: 10px 12px;
-  font-size: 0.82rem;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: radial-gradient(circle at top left, #020617, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: radial-gradient(circle at top left, #020617, #0f172a);
+  padding: 12px 12px 10px;
+  font-size: 0.85rem;
 }
 
-.example-card h4 {
+.stack-card h3 {
   margin: 0 0 6px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  color: #e5e7eb;
 }
 
-.example-card ul {
+.stack-card ul {
   margin: 0;
   padding-left: 16px;
 }
 
-.example-card li {
+.stack-card li {
   margin-bottom: 4px;
 }
 
-/* Colors for fake / real sample cards */
-.fake-sample {
-  border-color: rgba(248, 113, 113, 0.9);
-  background: radial-gradient(circle at top left, #450a0a, #020617);
-}
-
-.real-sample {
-  border-color: rgba(52, 211, 153, 0.9);
-  background: radial-gradient(circle at top left, #022c22, #020617);
-}
-
-/* Responsive examples grid */
+/* Responsive grid for small screens */
 @media (max-width: 640px) {
-  .examples-grid {
+  .stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .header-right {
+    align-items: flex-start;
   }
 }
