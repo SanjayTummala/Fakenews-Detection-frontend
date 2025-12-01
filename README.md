@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# 🌐 Fake News Detection – React Frontend  
+A modern and responsive web application built using React.  
+It allows users to input any news text and instantly verify whether it is **Fake** or **Real**, based on the machine-learning model running in the backend.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## 🔗 Live Website  
+https://fakenews-detection-frontend.vercel.app/
 
-In the project directory, you can run:
+Backend API  
+https://fakenews-detection-backend.onrender.com
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🎨 Key Features  
+Elegant tab-based interface with sections:  
+• Fake News Detector  
+• About the Project  
+• Dataset & Statistics  
+• Sample Fake and Real News (5 each)  
+• Technology & Architecture Overview  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Interactive UI  
+The frontend provides a visually clean, professional experience suitable for college projects, resumes, and real-world demos.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🏗 Technology Stack  
+React.js (JavaScript, JSX)  
+CSS (Custom Styled UI)  
+Fetch API (Backend communication)  
+Environment variables for API configuration  
+Deployment on Vercel (GitHub linked)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ⚙️ Local Setup  
+Install packages  
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start development server  
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Environment Variable  
+Create a `.env` file in the root:
 
-### `npm run eject`
+REACT_APP_API_URL=https://fakenews-detection-backend.onrender.com
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 Project Structure  
+public/ – HTML template and icons  
+src/App.js – Main application & UI  
+src/App.css – Styling  
+src/index.js – Entry point  
+README.md – Documentation  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 Deployment (Vercel)  
+The frontend is deployed on Vercel with GitHub integration.  
+Environment variable configured in Vercel:
 
-## Learn More
+REACT_APP_API_URL = https://fakenews-detection-backend.onrender.com
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Every new GitHub push automatically redeploys the site.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 👨‍💻 Author  
+Sanjay Kumar Tummala  
+Developer • Networking Enthusiast • Machine Learning Learner
