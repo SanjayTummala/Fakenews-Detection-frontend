@@ -248,10 +248,6 @@ function App() {
                     <h4>🔴 Fake News Samples</h4>
                     <ul>
                       <li>
-                        “Government will deposit ₹5,00,000 into every citizen’s
-                        bank account automatically from next week.”
-                      </li>
-                      <li>
                         “Scientists confirm that drinking only hot water for 3
                         days can completely cure all types of cancer.”
                       </li>
